@@ -68,7 +68,9 @@ const Navbar = () => {
 
         <div className="flex flex-row items-center gap-5">
           <SignedIn>
-            <Button variant="secondary">Add Recipe</Button>
+            <Link href="/add-recipe">
+              <Button variant="secondary">Add Recipe</Button>
+            </Link>
             <SignOutButton>
               <div className="flex cursor-pointer">
                 <LogOut />
