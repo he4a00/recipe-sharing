@@ -45,15 +45,25 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-1">
-        <div className="items-center gap-5 flex-row hidden md:flex">
-          <SignedOut>
-            <Button variant="secondary">
-              <SignUpButton />
-            </Button>
-            <Button variant="ghost">
-              <SignInButton />
-            </Button>
-          </SignedOut>
+        <div className="items-center gap-5 flex-row flex">
+          <div className="md:flex hidden gap-5">
+            <SignedOut>
+              <SignUpButton>
+                <Button variant="secondary">Sign Up</Button>
+              </SignUpButton>
+              <SignInButton>
+                <Button variant="ghost">Sign In</Button>
+              </SignInButton>
+            </SignedOut>
+          </div>
+
+          <div className="md:hidden flex">
+            <SignedOut>
+              <SignInButton>
+                <LogIn />
+              </SignInButton>
+            </SignedOut>
+          </div>
         </div>
 
         <div className="flex flex-row items-center gap-5">
