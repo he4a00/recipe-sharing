@@ -26,6 +26,9 @@ const Navbar = () => {
 
       <div className="flex-row gap-8 items-center hidden md:flex">
         {navbarLinks.map((link) => {
+          if (link.label === undefined) {
+            return null; // Skip rendering this link
+          }
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
@@ -68,7 +71,7 @@ const Navbar = () => {
 
         <div className="flex flex-row items-center gap-5">
           <SignedIn>
-            <Link href="/add-recipe">
+            <Link href="/add-recipe" className="hidden md:flex">
               <Button variant="secondary">Add Recipe</Button>
             </Link>
             <SignOutButton>
