@@ -11,7 +11,12 @@ export default authMiddleware({
     "/recipes",
     "/api/uploadthing",
   ],
-  ignoredRoutes: ["api/webhook/clerk", "/api/uploadthing  "],
+  ignoredRoutes: [
+    "api/webhook/clerk",
+    "/api/uploadthing",
+    "/api/recipe",
+    "/api/user",
+  ],
 });
 
 export const config = {

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "../components/Navbar";
 import BottomBar from "../components/BottomBar";
+import QueryProvider from "../components/QueryProvide";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,19 +20,21 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} bg-black text-white`}>
-          <Navbar />
-          <main className="flex flex-row">
-            <section className="">
-              <div className="w-full max-w-4xl">{children}</div>
-            </section>
-            {/* @ts-ignore */}
-          </main>
+      <QueryProvider>
+        <html lang="en">
+          <body className={`${inter.className} bg-black text-white`}>
+            <Navbar />
+            <main className="flex flex-row">
+              <section className="">
+                <div className="w-full max-w-4xl">{children}</div>
+              </section>
+              {/* @ts-ignore */}
+            </main>
 
-          <BottomBar />
-        </body>
-      </html>
+            <BottomBar />
+          </body>
+        </html>
+      </QueryProvider>
     </ClerkProvider>
   );
 }

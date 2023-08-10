@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -18,7 +18,7 @@ import Image from "next/image";
 import { Textarea } from "./ui/textarea";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/validations/uploadthing";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { RecipeValidation } from "@/lib/validations/recipe";
 import { createRecipe } from "@/lib/actions/recipe.actions";
 
@@ -33,8 +33,8 @@ interface RecipeProps {
 
 const PostRecipe = ({ userId }: { userId: string }) => {
   const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
   const { startUpload } = useUploadThing("media");
-  const pathname = usePathname();
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(RecipeValidation),
@@ -43,6 +43,7 @@ const PostRecipe = ({ userId }: { userId: string }) => {
       imageUrl: "",
       description: "",
       preparationTime: "",
+      ingredients: [],
       cookingTime: "",
       createdBy: userId,
     },
@@ -64,11 +65,15 @@ const PostRecipe = ({ userId }: { userId: string }) => {
       title: values.title,
       description: values.description,
       preparationTime: values.preparationTime,
+      ingredients: values.ingredients,
       cookingTime: values.cookingTime,
       imageUrl: values.imageUrl,
       createdBy: userId,
     });
+    form.reset();
     router.push("/");
+
+    setLoading(true);
   };
 
   const handleImage = (
@@ -152,7 +157,6 @@ const PostRecipe = ({ userId }: { userId: string }) => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="preparationTime"
@@ -166,6 +170,31 @@ const PostRecipe = ({ userId }: { userId: string }) => {
                       className="border border-[#1F1F22] bg-[#1F1F22] text-light-1 !important focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="ingredients"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Ingredients</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 items-center">
+                      <Input
+                        placeholder="Flour, Egg, Wheat"
+                        className="border border-[#1F1F22] bg-[#1F1F22] text-light-1 !important focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important"
+                        {...field}
+                        onChange={(e) => {
+                          const ingredientsArray = e.target.value
+                            .split(",")
+                            .map((ingredient) => ingredient.trim());
+                          field.onChange(ingredientsArray);
+                        }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -208,7 +237,7 @@ const PostRecipe = ({ userId }: { userId: string }) => {
             )}
           />
         </div>
-        <Button variant="secondary" type="submit">
+        <Button disabled={loading} variant="secondary" type="submit">
           Add Recipe
         </Button>
       </form>

@@ -1,7 +1,6 @@
 import PostRecipe from "@/app/components/PostRecipe";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 import React from "react";
 
 const Page = async () => {

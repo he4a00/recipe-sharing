@@ -8,6 +8,7 @@ interface Params {
   title: string;
   description: string;
   preparationTime: string;
+  ingredients: string[];
   cookingTime: string;
   imageUrl: string;
   createdBy: string;
@@ -17,6 +18,7 @@ export async function createRecipe({
   title,
   description,
   preparationTime,
+  ingredients,
   cookingTime,
   imageUrl,
   createdBy,
@@ -32,6 +34,7 @@ export async function createRecipe({
       title,
       description,
       preparationTime,
+      ingredients,
       cookingTime,
       imageUrl,
       createdBy,
@@ -42,6 +45,6 @@ export async function createRecipe({
       $push: { recipes: recipe._id },
     });
   } catch (error: any) {
-    throw new Error(`Failed to create/update user: ${error.message}`);
+    throw new Error(`Failed to create recipe: ${error.message}`);
   }
 }
